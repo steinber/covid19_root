@@ -13,7 +13,6 @@ int dayinyear(int date)
   int d = 0;
   for (int i=0;i<month;i++) {d+=days[i];}
   d += day;
-  std::cout << date << " " << year << " " << month << " " << day << " " << d << std::endl;
   return d;
 }
 
