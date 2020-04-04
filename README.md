@@ -1,7 +1,7 @@
 # covid19_root
 This is a set of simple (for now) ROOT macros to utilize public COVID19 data.
 
-The dataset is from @covidtracking
+The dataset is from @covidtracking via https://covidtracking.com/data
 
 Example:
 <pre>
