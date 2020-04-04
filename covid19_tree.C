@@ -1,7 +1,18 @@
 //
+// covid19_tree()
+// (c) 2020 Peter Steinberg
+//
+// A simple utility to convert the CSV file available from https://covidtracking.com/data
+// to a format amenable to folks who use ROOT for data analysis.
+//
+// The CSV list of fields, from data file but stripped in ROOT macro
 // date,state,positive,negative,pending,hospitalizedCurrently,hospitalizedCumulative,inIcuCurrently,inIcuCumulative,onVentilatorCurrently,onVentilatorCumulative,recovered,hash,dateChecked,death,hospitalized,total,totalTestResults,posNeg,fips,deathIncrease,hospitalizedIncrease,negativeIncrease,positiveIncrease,totalTestResultsIncrease
-// example
+//
+// An example data line
 // 20200403,AK,157,5859,,,15,,,,,,192f851a8f9b68576ed308814322d1333b538699,2020-04-03T20:00:00Z,3,15,6016,6016,6016,02,0,6,980,14,994
+//
+// Enjoy - questions to steinber@gmail.com
+//
 
 int dayinyear(int date)
 {
