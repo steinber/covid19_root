@@ -14,6 +14,20 @@
 // Enjoy - questions to steinber@gmail.com
 //
 
+TTree* cv19;
+
+void download_data()
+{
+  // original is daily.csv
+  // version w/ no titles is daily2.csv
+  // version w/ padded 0's is daily3.csv --> this was the most important, since ROOT otherwise ignores empty fields.
+  
+  gSystem->Exec("curl -O https://covidtracking.com/api/v1/states/daily.csv");
+  gSystem->Exec("tail -n +2 daily.csv > daily2.csv");
+  gSystem->Exec("awk -F, -v OFS=\',\' \'{for(i=1;i<=NF;i++) if(!$i)$i=\"0\"}1\' daily2.csv > daily3.csv");
+
+}
+
 int dayinyear(int date)
 {
   int days[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
@@ -22,17 +36,30 @@ int dayinyear(int date)
   int month = int((date%10000)/100);
   int day = date%100;
   int d = 0;
-  for (int i=0;i<month;i++) {d+=days[i];}
-  d += day;
+  for (int i=0;i<month-1;i++) {d+=days[i];}
+  d += (day-1);
   return d;
 }
 
-TTree* covid19_tree()
+TGraph* make_graph(TString state, TString variable)
 {
-  gSystem->Exec("curl -O https://covidtracking.com/api/v1/states/daily.csv");
-  gSystem->Exec("tail -n +2 daily.csv > daily2.csv");
-  gSystem->Exec("awk -F, -v OFS=\',\' \'{for(i=1;i<=NF;i++) if(!$i)$i=\"0\"}1\' daily2.csv > daily3.csv");
-  TTree* cv19 = new TTree("cv19","COVID19 USA");
+  TString var = variable;
+  var += ":dayinyear(date)";
+  
+  TString cut = "state==\"";
+  cut += state;
+  cut += "\"";
+  
+  int n = cv19->Draw(var,cut,"goff");
+  TGraph* g = new TGraph(n,cv19->GetV2(),cv19->GetV1()); // ROOT flips the axes for typical Draw's.
+  return g;
+}
+
+TTree* covid19_tree(bool get_data = 1)
+{
+  if (get_data) download_data();
+  
+  cv19 = new TTree("cv19","COVID19 USA");
 
   cv19->ReadFile("daily3.csv","date/I:state/C:positive/I:negative/I:pending/I:hospitalizedCurrently/I:hospitalizedCumulative/I:inIcuCurrently/I:inIcuCumulative/I:onVentilatorCurrently/I:onVentilatorCumulative/I:recovered/I:hash/C:dateChecked/C:death/I:hospitalized/I:total/I:totalTestResults/I:posNeg/I:fips/I:deathIncrease/I:hospitalizedIncrease/I:hospitalizedIncrease/I:positiveIncrease/I:totalTestResultsIncrease/I");
 
