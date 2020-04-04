@@ -1,6 +1,6 @@
 //
 // covid19_tree()
-// (c) 2020 Peter Steinberg
+// (c) 2020 Peter Steinberg, all errors my own
 //
 // A simple utility to convert the CSV file available from https://covidtracking.com/data
 // to a format amenable to folks who use ROOT for data analysis.
