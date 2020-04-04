@@ -1,7 +1,11 @@
 # covid19_root
 This is a set of simple (for now) ROOT macros to utilize public COVID19 data.
 
-The dataset is from @covidtracking via https://covidtracking.com/data
+The dataset (time history for each state) is downloaded from @covidtracking via https://covidtracking.com/api
+
+It runs several shell scripts to massage the file into a useful form for ROOT to read-in.  Works so far for me on Mac OS X with zsh, bash, tcsh, & csh.
+
+Variables are listed in the source, but explanations can be found at the link above.
 
 Example:
 <pre>
